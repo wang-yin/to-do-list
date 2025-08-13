@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { kaushan_script } from "@/lib/fonts";
+import { kaushan_script, dancing_script, quicksand } from "@/lib/fonts";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${kaushan_script.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${kaushan_script.variable} ${dancing_script.variable} ${quicksand.variable} antialiased`}
       >
         {children}
       </body>
