@@ -23,7 +23,9 @@ export default function SelectionModeButton({
   return (
     <button
       className={`${bg} ${borderColor} border py-5 px-15 text-xl rounded-xl text-white cursor-pointer hover:bg-white ${hoverText} sm:text-2xl md:text-3xl`}
-      onClick={() => router.push(mode === "訪客模式" ? "todos" : "auth/login")}
+      onClick={() =>
+        router.push(mode === "訪客模式" ? "dashboard" : "auth/login")
+      }
     >
       {mode}
     </button>
