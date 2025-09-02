@@ -1,10 +1,12 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import authRoutes from "./routes/auth_route";
+
 const app = express();
 
 app.use(express.json());
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello from Backend!");
-})
+app.use("/auth", authRoutes);
+
+require("../src/config/connection_db");
 
 export default app;

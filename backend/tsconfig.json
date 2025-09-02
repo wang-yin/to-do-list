@@ -5,11 +5,11 @@
     "outDir": "dist",
 
     // 環境
-    "module": "commonjs",      // 或 "nodenext"（如果你想用 ESModule）
-    "target": "ES2020",        // Node.js 現代版足夠
-    "lib": ["ES2020"],         // 用 ES2020 的標準 API
-    "types": ["node"],         // 引入 Node.js 型別
-    "esModuleInterop": true,   // 方便 import express from 'express'
+    "module": "commonjs", // 或 "nodenext"（如果你想用 ESModule）
+    "target": "ES2020", // Node.js 現代版足夠
+    "lib": ["ES2020"], // 用 ES2020 的標準 API
+    "types": ["node"], // 引入 Node.js 型別
+    "esModuleInterop": true, // 方便 import express from 'express'
 
     // 除錯
     "sourceMap": true,
