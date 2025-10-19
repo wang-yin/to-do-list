@@ -8,7 +8,7 @@ import { FiPlus } from "react-icons/fi";
 import AddEditModal from "@/components/forms/AddEditModal/AddEditModal"
 import { useState, useEffect } from "react";
 import { GetTodo } from "@/src/type/todo";
-import { getTodo } from "@/src/services/todo";
+import { getTodo, updateTodo } from "@/src/services/todo";
 
 
 export default function Dashboard() {
@@ -16,6 +16,7 @@ export default function Dashboard() {
   const [todos, setTodos] = useState<GetTodo[]>([])
   const [mode, setMode] = useState<"新增" | "修改">("新增");
   const [selectedTodo, setSelectedTodo] = useState<GetTodo | null>(null);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
       const fetchTodos = async () => {
@@ -36,6 +37,25 @@ export default function Dashboard() {
     setIsModalOpen(true);
   };
 
+  const filteredTodos = todos.filter((todo) => {
+    if (!filter || filter === "all") return true;
+    if (filter === "已完成") return todo.completed === true;
+    if (filter === "未完成") return todo.completed === false;
+    if (["工作", "學習", "生活"].includes(filter)) return todo.classification === filter;
+    return true;
+  });
+
+  const toggleComplete = async(id: string, currentStatus: boolean) => {
+    try {
+      console.log("前端傳送完成與否")
+      const updated = await updateTodo(id, { completed: !currentStatus });
+      setTodos(prev => prev.map(todo => todo._id === id ? { ...todo, completed: updated.completed } : todo)
+      )
+    } catch (err) {
+      console.error("切換完成狀態失敗：", err);
+    }
+  }
+
     
   return (
     <>
@@ -54,11 +74,11 @@ export default function Dashboard() {
               <FiPlus />
               新增
             </button>
-            <TodoFilter />
+            <TodoFilter onFilterChange={setFilter}/>
           </div>
-
+              
           <div className="mt-5 flex-1 border flex flex-col gap-5 overflow-y-auto dark:bg-gray-500">
-            <Todos todos={todos} setTodos={setTodos} onEdit={handleEdit}/>
+            <Todos todos={filteredTodos} setTodos={setTodos} onEdit={handleEdit} onToggleComplete={toggleComplete}/>
             
           </div>
         </div>

@@ -26,14 +26,6 @@ export const deleteTodo_model = async (userId: string, todoId: string) => {
 
 // 修改
 export const editTodo = async (userId: string, todoId: string, data: TodoInput) => {
-  const todo = await Todo.findOneAndUpdate(
-    { _id: todoId, user: userId },
-    {
-      title: data.title,
-      classification: data.classification,
-      dueDate: data.dueDate,
-    },
-    { new: true }
-  );
+  const todo = await Todo.findOneAndUpdate({ _id: todoId, user: userId }, data, { new: true });
   return todo;
 };

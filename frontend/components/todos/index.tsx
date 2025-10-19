@@ -2,30 +2,26 @@
 
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { AiFillEdit } from "react-icons/ai";
-import { IoTime } from "react-icons/io5";
+import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
+import { MdOutlineCheckCircleOutline } from "react-icons/md";
 import EditTodoModal from "@/components/forms/AddEditModal/AddEditModal"
 import { useState } from "react";
 import { deleteTodo } from "@/src/services/todo";
 import { TodosProps, GetTodo } from "@/src/type/todo";
 
-export default function Todos({ todos, setTodos, onEdit }: TodosProps) {
+export default function Todos({ todos, setTodos, onEdit, onToggleComplete }: TodosProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<GetTodo | null>(null);
 
   const handleDelete = async (todoID: string) => {
-      try {
-        await deleteTodo(todoID);
-        alert("刪除成功！");
-        setTodos((prev) => prev.filter((todo) => todo._id !== todoID));
-      } catch (err) {
-        console.error(err);
-      }
+    try {
+      await deleteTodo(todoID);
+      alert("刪除成功！");
+      setTodos((prev) => prev.filter((todo) => todo._id !== todoID));
+    } catch (err) {
+      console.error(err);
     }
-
-  const handleEdit = (todo: GetTodo) => {
-    setSelectedTodo(todo);
-    setIsModalOpen(true);
-  };
+  }
   
   return (
     <>
@@ -37,7 +33,14 @@ export default function Todos({ todos, setTodos, onEdit }: TodosProps) {
             <p>{todo.dueDate}</p>
           </div>
           <div className="flex items-center gap-2 ">
-            <IoTime className="cursor-pointer text-lg md:text-xl lg:text-2xl" />
+            {todo.completed ? 
+              <MdOutlineCheckCircleOutline 
+                className="cursor-pointer text-lg md:text-xl lg:text-2xl"
+                onClick={() => onToggleComplete(todo._id, todo.completed)}
+              /> : <MdOutlineRadioButtonUnchecked 
+                className="cursor-pointer text-lg md:text-xl lg:text-2xl"
+                onClick={() => onToggleComplete(todo._id, todo.completed)} 
+              />}
             <AiFillEdit className="cursor-pointer text-lg md:text-xl lg:text-2xl" onClick={() => onEdit(todo)}/>
             <RiDeleteBin6Fill className="cursor-pointer text-lg md:text-xl lg:text-2xl" onClick={() => handleDelete(todo._id)}/>
           </div>
